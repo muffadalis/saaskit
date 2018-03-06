@@ -17,7 +17,7 @@ namespace SaasKit.Multitenancy.Internal
             Ensure.Argument.NotNull(loggerFactory, nameof(loggerFactory));
 
             this.next = next;
-            this.log = loggerFactory.CreateLogger<TenantResolutionMiddleware<TTenant>>();
+            log = loggerFactory.CreateLogger<TenantResolutionMiddleware<TTenant>>();
         }
 
         public async Task Invoke(HttpContext context, ITenantResolver<TTenant> tenantResolver)
@@ -25,7 +25,7 @@ namespace SaasKit.Multitenancy.Internal
             Ensure.Argument.NotNull(context, nameof(context));
             Ensure.Argument.NotNull(tenantResolver, nameof(tenantResolver));
 
-            log.LogDebug("Resolving TenantContext using {loggerType}.", tenantResolver.GetType().Name);
+            log.LogDebug($"Resolving TenantContext using {tenantResolver.GetType().Name}.");
 
             var tenantContext = await tenantResolver.ResolveAsync(context);
 
